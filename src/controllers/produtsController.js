@@ -54,6 +54,36 @@ class productsController {
             return res.status(403).json(error);
         }
     }
+
+    async addProduct(req, res) {
+        try {
+            const product = new Product(req.body);
+            await product.save();
+            return res.send();
+        } catch (error) {
+            return res.status(403).json(error);
+        }
+    }
+
+    async removeProduct(req, res) {
+        try {
+            const id = req.params.id;
+            await Product.findByIdAndRemove(id);
+            return res.send();
+        } catch (error) {
+            return res.status(403).json(error);
+        }
+    }
+
+    async updateProduct(req, res) {
+        try {
+            const id = req.params.id;
+            await Product.findByIdAndUpdate(id, { ...req.body });
+            return res.send();
+        } catch (error) {
+            return res.status(403).json(error);
+        }
+    }
 }
 
 

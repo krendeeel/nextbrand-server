@@ -1,6 +1,8 @@
-const User = require('../models/User')
-const bcrypt = require('bcrypt')
-const signToken = require('../utils/signToken')
+const User = require('../models/User');
+const Order = require('../models/Order');
+const Product = require('../models/Product');
+const bcrypt = require('bcrypt');
+const signToken = require('../utils/signToken');
 
 class authController {
     async registration(req, res) {
@@ -63,6 +65,27 @@ class authController {
                 ...user._doc,
                 token
             })
+        } catch (error) {
+            return res.status(403).json(error)
+        }
+    }
+
+
+    async adminInfo(req, res) {
+        try {
+            const productsCount = await Product.find().count();
+            const ordersCount = await Order.find().count();
+            const usersCount = await User.find().count();
+            const products = await Product.find().limit(10);
+            const orders = await Order.find().limit(10);
+            return res.status(200).json({
+                productsCount,
+                ordersCount,
+                usersCount,
+                products,
+                orders
+            })
+
         } catch (error) {
             return res.status(403).json(error)
         }
