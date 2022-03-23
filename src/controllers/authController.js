@@ -76,8 +76,8 @@ class authController {
             const productsCount = await Product.find().count();
             const ordersCount = await Order.find().count();
             const usersCount = await User.find().count();
-            const products = await Product.find().limit(10);
-            const orders = await Order.find().limit(10);
+            const products = await Product.find();
+            const orders = await Order.find();
             return res.status(200).json({
                 productsCount,
                 ordersCount,
